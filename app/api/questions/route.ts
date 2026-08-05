@@ -1,14 +1,16 @@
 import type { ResultSetHeader } from "mysql2";
+import type { ExecuteValues } from "mysql2";
 import { db, query } from "@/lib/db";
 import { requireAuth } from "@/lib/auth";
 import { questionSchema } from "@/lib/validators";
 import { cleanOptionalText, cleanText } from "@/lib/sanitizers";
+import { isQuestionImageUrl } from "@/lib/question-image";
 import { fail, handleApiError, ok, validationFail } from "@/lib/response";
 import type { Questao } from "@/types/question";
 
 function buildFilters(searchParams: URLSearchParams, userId: number) {
   const where = ["usuario_id = :usuarioId"];
-  const params: Record<string, unknown> = { usuarioId: userId };
+  const params: Record<string, ExecuteValues> = { usuarioId: userId };
 
   const search = cleanOptionalText(searchParams.get("search"));
   const disciplina = cleanOptionalText(searchParams.get("disciplina"));
@@ -53,7 +55,7 @@ export async function GET(request: Request) {
     );
 
     const rows = await query<Questao[]>(
-      `SELECT id, usuario_id, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta, disciplina, assunto, dificuldade, created_at, updated_at
+      `SELECT id, usuario_id, pergunta, imagem, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta, disciplina, assunto, dificuldade, created_at, updated_at
        FROM questoes
        WHERE ${where}
        ORDER BY created_at DESC
@@ -84,9 +86,11 @@ export async function POST(request: Request) {
     const body = await request.json();
     const parsed = questionSchema.safeParse(body);
     if (!parsed.success) return validationFail(parsed.error);
+    if (!isQuestionImageUrl(parsed.data.imagem)) return fail("Caminho de imagem inválido.", 422);
 
     const data = {
       pergunta: cleanText(parsed.data.pergunta),
+      imagem: parsed.data.imagem ?? null,
       alternativa_a: cleanText(parsed.data.alternativa_a),
       alternativa_b: cleanText(parsed.data.alternativa_b),
       alternativa_c: cleanText(parsed.data.alternativa_c),
@@ -99,8 +103,8 @@ export async function POST(request: Request) {
 
     const [result] = await db.execute<ResultSetHeader>(
       `INSERT INTO questoes
-       (usuario_id, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta, disciplina, assunto, dificuldade)
-       VALUES (:usuarioId, :pergunta, :alternativa_a, :alternativa_b, :alternativa_c, :alternativa_d, :correta, :disciplina, :assunto, :dificuldade)`,
+       (usuario_id, pergunta, imagem, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta, disciplina, assunto, dificuldade)
+       VALUES (:usuarioId, :pergunta, :imagem, :alternativa_a, :alternativa_b, :alternativa_c, :alternativa_d, :correta, :disciplina, :assunto, :dificuldade)`,
       { usuarioId: user.id, ...data }
     );
 

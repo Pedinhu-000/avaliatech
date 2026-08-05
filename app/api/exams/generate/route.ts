@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     };
 
     const compatibleQuestions = await query<Questao[]>(
-      `SELECT id, usuario_id, pergunta, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta,
+      `SELECT id, usuario_id, pergunta, imagem, alternativa_a, alternativa_b, alternativa_c, alternativa_d, correta,
               disciplina, assunto, dificuldade, created_at, updated_at
        FROM questoes
        WHERE usuario_id = :usuarioId

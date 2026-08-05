@@ -34,3 +34,13 @@ export function updateQuestion(id: number, data: QuestaoFormData) {
 export function deleteQuestion(id: number) {
   return http<ApiResponse<null>>(`/api/questions/${id}`, { method: "DELETE" });
 }
+
+export async function uploadQuestionImage(file: File) {
+  const formData = new FormData();
+  formData.append("image", file);
+  const response = await fetch("/api/uploads/questions", { method: "POST", body: formData });
+  const data = await response.json() as ApiResponse<{ url: string }>;
+  if (!response.ok) throw new Error(data.message ?? "Não foi possível enviar a imagem.");
+  if (!data.data?.url) throw new Error("O servidor não retornou a URL da imagem.");
+  return data.data.url;
+}

@@ -5,6 +5,7 @@ export interface Questao {
   id: number;
   usuario_id: number;
   pergunta: string;
+  imagem: string | null;
   alternativa_a: string;
   alternativa_b: string;
   alternativa_c: string;
@@ -19,6 +20,7 @@ export interface Questao {
 
 export interface QuestaoFormData {
   pergunta: string;
+  imagem?: string | null;
   alternativa_a: string;
   alternativa_b: string;
   alternativa_c: string;

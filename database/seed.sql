@@ -14,7 +14,7 @@ FROM (
   UNION ALL SELECT 'Qual diretiva transforma um componente em Client Component?', 'use client', 'client on', 'next client', 'react client', 'A', 'Programação Web', 'Next.js', 'Fácil'
   UNION ALL SELECT 'Qual classe Tailwind aplica display flex?', 'flex', 'display-flex', 'd-flex', 'fx', 'A', 'Programação Web', 'Next.js', 'Fácil'
   UNION ALL SELECT 'Qual propriedade do React identifica itens em listas?', 'key', 'idList', 'indexOf', 'mapKey', 'A', 'Programação Web', 'Next.js', 'Fácil'
-  UNION ALL SELECT 'Qual hook gerencia estado em componentes React?', 'useState', 'useRouter', 'useParams', 'useMemo', 'A', 'Programação Web', 'Next.js', 'Fácil'
+  UNION ALL SELECT 'Qual hook gerencia estado em componentes React?', 'useState', 'useRouter', 'useParams', 'useMemo', 'A', 'Programação Web', 'Next.js', 'Fácil'o
   UNION ALL SELECT 'Qual método percorre um array retornando outro array?', 'map', 'filter', 'find', 'reduceTo', 'A', 'Programação Web', 'Next.js', 'Fácil'
   UNION ALL SELECT 'Qual método filtra itens de um array?', 'filter', 'map', 'push', 'join', 'A', 'Programação Web', 'Next.js', 'Fácil'
   UNION ALL SELECT 'Qual tipo representa texto em TypeScript?', 'string', 'text', 'charlist', 'varchar', 'A', 'Programação Web', 'Next.js', 'Fácil'

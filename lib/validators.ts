@@ -20,6 +20,7 @@ export const loginSchema = z.object({
 
 export const questionSchema = z.object({
   pergunta: z.string().min(5, "Informe a pergunta."),
+  imagem: z.string().max(255).nullable().optional(),
   alternativa_a: z.string().min(1, "Informe a alternativa A."),
   alternativa_b: z.string().min(1, "Informe a alternativa B."),
   alternativa_c: z.string().min(1, "Informe a alternativa C."),
